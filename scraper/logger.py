@@ -3,7 +3,7 @@ import sys
 from loguru import logger as loguru_logger
 
 
-def get_logger(name: str = "job_scraper"):
+def get_logger(name: str = "scraper"):
     """
     :param name: The name of the logger.
     :return: The logger instance.

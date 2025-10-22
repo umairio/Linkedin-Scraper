@@ -30,11 +30,11 @@ classifiers = [
 ]
 
 [project.scripts]
-job-scraper = "job_scraper.__main__:main"
+job-scraper = "scraper.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["job_scraper*"]
+include = ["scraper*"]
 
 [tool.setuptools.package-data]
-job_scraper = ["*"]
+scraper = ["*"]

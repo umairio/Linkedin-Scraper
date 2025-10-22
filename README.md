@@ -14,7 +14,7 @@ A Python tool to scrape job listings from LinkedIn.
    ```
 4. Run the scraper:
    ```bash
-   python -m job_scraper
+   python -m scraper
    ```
 
 

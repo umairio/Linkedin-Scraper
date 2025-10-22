@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "job-scraper"
+version = "1.0.0"
+description = "A LinkedIn job scraper tool"
+authors = [
+    {name = "UmaiRIO", email = "umairmateen55@gmail.com"},
+]
+readme = "README.md"
+requires-python = ">=3.8"
+
+dependencies = [
+    "beautifulsoup4",
+    "pandas",
+    "cloudscraper",
+    "playwright",
+    "playwright-stealth",
+    "loguru",
+    "bs4",
+    "fake_useragent"
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+job-scraper = "job_scraper.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["job_scraper*"]
+
+[tool.setuptools.package-data]
+job_scraper = ["*"]

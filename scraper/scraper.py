@@ -1,8 +1,8 @@
 from cloudscraper import create_scraper
 from bs4 import BeautifulSoup
 import pandas as pd
-from job_scraper.logger import logger
-from job_scraper.utils import get_headers
+from scraper.logger import logger
+from scraper.utils import get_headers
 import re
 import time
 from urllib.parse import urlparse, urlunparse, parse_qs, urlencode
@@ -12,7 +12,7 @@ import asyncio
 from playwright_stealth import Stealth
 
 
-class LinkedInScraper:
+class JobScraper:
     def __init__(self):
         self.session = create_scraper()
         self.headers = get_headers()
@@ -144,6 +144,26 @@ class LinkedInScraper:
             time.sleep(1)
         return df
     
+
+    def save_df(self, df=pd.DataFrame()):
+        if df.empty:
+            logger.warning("No jobs found to save.")
+        else:
+            ddf = df.drop_duplicates(subset=["id"])
+            logger.success(f"Scraping completed. Total unique jobs found: {len(ddf)}, duplicates removed: {len(df) - len(ddf)}")
+            ddf.to_csv("jobs.csv", index=False)
+            ddf.to_json("jobs.json", orient="records")
+            logger.success(f"✅ Saved {len(ddf)} jobs → jobs.csv & jobs.json")
+
+        # return df
+    
+
+class JobScraperPlaywright(JobScraper):
+    def scrape_jobs_with_webdriver(self, url):
+        cards = self.scrape_cards_with_driver(url)
+        df = self.scrape_job_cards(cards)
+        self.save_df(df)
+
     def safe_selector(self, selector):
         try:
             return self.page.query_selector(selector)
@@ -232,20 +252,3 @@ class LinkedInScraper:
             except Exception:
                 continue
         return False
-
-    def save_df(self, df=pd.DataFrame()):
-        if df.empty:
-            logger.warning("No jobs found to save.")
-        else:
-            ddf = df.drop_duplicates(subset=["id"])
-            logger.success(f"Scraping completed. Total unique jobs found: {len(ddf)}, duplicates removed: {len(df) - len(ddf)}")
-            ddf.to_csv("jobs.csv", index=False)
-            ddf.to_json("jobs.json", orient="records")
-            logger.success(f"✅ Saved {len(ddf)} jobs → jobs.csv & jobs.json")
-
-        # return df
-    
-    def scrape_jobs_with_webdriver(self, url):
-        cards = self.scrape_cards_with_driver(url)
-        df = self.scrape_job_cards(cards)
-        self.save_df(df)

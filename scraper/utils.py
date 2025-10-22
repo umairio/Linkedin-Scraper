@@ -1,7 +1,7 @@
 from urllib.parse import urlencode, quote_plus
-from job_scraper.logger import logger
+from scraper.logger import logger
 from fake_useragent import UserAgent
-from job_scraper import WORKPLACE_TYPES, EXPERIENCE_LEVELS, JOB_TYPES, TIME_POSTED, COOKIE
+from scraper import WORKPLACE_TYPES, EXPERIENCE_LEVELS, JOB_TYPES, TIME_POSTED, COOKIE
 
 
 def prompt_selection(title: str, options: dict, allow_empty=True):
